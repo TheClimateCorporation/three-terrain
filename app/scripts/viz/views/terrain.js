@@ -34,12 +34,11 @@ define([
       ThreeBaseView.prototype.initThree.apply(this, arguments);
 
       this._renderer.setClearColor(0x7BB5FF);
-      this._camera.position.set(0, -50, 10);
+      this._camera.position.set(0, -100, 50);
       this._controls = new THREE.TrackballControls(this._camera);
 
       this.initMaterials();
       this.initLighting();
-      this.initAxes();
     },
 
     onTerrainData: function(data) {
@@ -49,34 +48,20 @@ define([
     },
 
     initMaterials: function() {
-      /*this._terrainMaterial = new THREE.MeshPhongMaterial({
-        color: 0xdddddd,
-        wireframe: true
-      });*/
       this._terrainMaterial = new THREE.MeshPhongMaterial({
-        map: THREE.ImageUtils.loadTexture('images/dembathy_texture.jpg')
+        map: THREE.ImageUtils.loadTexture('images/tahoe_texture_2048.jpg')
       });
     },
 
     initLighting: function() {
 
-      // White directional light at half intensity shining from the top.
-      var directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-      directionalLight.position.set(-50, 0, 50);
-      this._scene.add(directionalLight);
-
       // ambient light
-      //this._ambientLight = new THREE.AmbientLight(0xeeeeee);
-      //this._scene.add(this._ambientLight);
-    },
-
-    initAxes: function() {
-      this._axes = new THREE.AxisHelper(200);
-      this._scene.add(this._axes);
+      this._ambientLight = new THREE.AmbientLight(0xffffff, 1);
+      this._scene.add(this._ambientLight);
     },
 
     initGeometries: function() {
-      this._terrainGeometry = new THREE.PlaneGeometry(100, 241, 174, 420);
+      this._terrainGeometry = new THREE.PlaneGeometry(100, 240, 174, 420);
       this._terrainGeometry.vertices =
         _.map(this._terrainGeometry.vertices, function(vertex, i) {
           vertex.z = this._terrainData[i] / 65535 * 9.449;
